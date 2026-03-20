@@ -1,0 +1,70 @@
+<!--pages/challenge/challenge.wxml - 解密挑战页面-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="title">闹钟解密</view>
+    <view class="subtitle">答题成功后才能关闭闹钟</view>
+  </view>
+
+  <!-- 难度选择 -->
+  <view class="section">
+    <view class="section-title">选择难度</view>
+    <view class="difficulty-grid">
+      <view 
+        class="difficulty-card {{difficulty === item.value ? 'active' : ''}}"
+        wx:for="{{difficulties}}"
+        wx:key="value"
+        bindtap="selectDifficulty"
+        data-value="{{item.value}}"
+      >
+        <view class="difficulty-icon">{{item.level === 1 ? '⭐' : item.level === 2 ? '⭐⭐' : '⭐⭐⭐'}}</view>
+        <view class="difficulty-label">{{item.label}}</view>
+        <view class="difficulty-desc">{{item.description}}</view>
+        <view class="difficulty-info">
+          <text class="info-item">⏱️ {{item.timeout}}秒</text>
+          <text class="info-item">✏️ {{item.maxAttempts}}次</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 题目类型选择 -->
+  <view class="section">
+    <view class="section-title">题目类型</view>
+    <view class="type-grid">
+      <view 
+        class="type-card {{challengeType === item.value ? 'active' : ''}}"
+        wx:for="{{challengeTypes}}"
+        wx:key="value"
+        bindtap="selectType"
+        data-value="{{item.value}}"
+      >
+        <view class="type-icon">{{item.icon}}</view>
+        <view class="type-label">{{item.label}}</view>
+        <view class="type-desc">{{item.description}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 开关控制 -->
+  <view class="section">
+    <view class="switch-row">
+      <view class="switch-label">
+        <view class="label-text">启用解密功能</view>
+        <view class="label-desc">开启后，关闭闹钟时需要答题</view>
+      </view>
+      <switch 
+        checked="{{enabled}}" 
+        bindchange="toggleEnabled"
+        color="#4A90D9"
+      />
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-section">
+    <button class="save-btn" bindtap="saveChallenge" disabled="{{!enabled}}">
+      保存设置
+    </button>
+  </view>
+</view>
