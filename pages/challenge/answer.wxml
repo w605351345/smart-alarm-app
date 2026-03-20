@@ -1,0 +1,54 @@
+<!--pages/challenge/answer.wxml - 答题页面-->
+<view class="challenge-container">
+  <!-- 头部 -->
+  <view class="challenge-header">
+    <view class="challenge-title">解密挑战</view>
+    <view class="challenge-timer" wx:if="{{timeLeft > 0}}">
+      ⏱️ {{timeLeft}}秒
+    </view>
+  </view>
+
+  <!-- 题目卡片 -->
+  <view class="question-card">
+    <view class="question-text">{{question}}</view>
+    
+    <!-- 输入框（记忆题显示，其他题可能不需要） -->
+    <input 
+      class="answer-input" 
+      type="text" 
+      placeholder="请输入答案"
+      value="{{answer}}"
+      bindinput="onAnswerInput"
+      maxlength="20"
+      confirm-type="done"
+      bindconfirm="submitAnswer"
+    />
+
+    <!-- 剩余次数 -->
+    <view class="attempts-info">
+      剩余机会：{{remainingAttempts}}次
+    </view>
+
+    <!-- 提交按钮 -->
+    <button class="submit-btn" bindtap="submitAnswer">
+      提交答案
+    </button>
+  </view>
+
+  <!-- 提示 -->
+  <view class="hint-text">
+    💡 答对题目才能关闭闹钟哦~
+  </view>
+</view>
+
+<!-- 结果弹窗 -->
+<view class="result-modal" wx:if="{{showResult}}">
+  <view class="result-content">
+    <view class="result-icon">{{resultIcon}}</view>
+    <view class="result-title">{{resultTitle}}</view>
+    <view class="result-message">{{resultMessage}}</view>
+    <button class="result-btn" bindtap="closeResult">
+      {{resultBtnText}}
+    </button>
+  </view>
+</view>
