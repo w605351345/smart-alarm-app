@@ -1,0 +1,78 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 头部信息 -->
+  <view class="header">
+    <view class="date-section">
+      <text class="date">{{currentDate}}</text>
+      <text class="greeting">早上好！</text>
+    </view>
+    
+    <view class="weather-section" wx:if="{{weather}}">
+      <view class="weather-info">
+        <text class="weather-icon">{{weather.icon}}</text>
+        <text class="weather-temp">{{weather.temperature}}°C</text>
+      </view>
+      <text class="weather-desc">{{weather.description}}</text>
+    </view>
+  </view>
+
+  <!-- 闹钟列表标题 -->
+  <view class="section-title">
+    <text class="title">我的闹钟</text>
+    <text class="count">{{alarms.length}}个</text>
+  </view>
+
+  <!-- 闹钟列表 -->
+  <view class="alarm-list">
+    <!-- 加载状态 -->
+    <view class="loading" wx:if="{{loading}}">
+      <text>加载中...</text>
+    </view>
+
+    <!-- 闹钟卡片 -->
+    <view 
+      class="alarm-card card" 
+      wx:for="{{alarms}}" 
+      wx:key="id"
+      bindtap="onAlarmCardTap"
+      data-id="{{item.id}}"
+    >
+      <view class="alarm-main">
+        <view class="alarm-time">{{item.time}}</view>
+        <view class="alarm-info">
+          <text class="alarm-name">{{item.name || '闹钟'}}</text>
+          <text class="alarm-repeat">{{item.repeatText}}</text>
+        </view>
+      </view>
+      
+      <view class="alarm-actions">
+        <switch 
+          checked="{{item.enabled}}" 
+          bindchange="toggleAlarm"
+          data-id="{{item.id}}"
+          color="#4A90D9"
+          bindtap="stopPropagation"
+        />
+        <view 
+          class="delete-btn"
+          catchtap="deleteAlarm"
+          data-id="{{item.id}}"
+        >
+          <text>删除</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{!loading && alarms.length === 0}}">
+      <image src="/images/empty-alarm.png" class="empty-image" mode="aspectFit" />
+      <text class="empty-text">暂无闹钟</text>
+      <text class="empty-hint">点击下方按钮添加第一个闹钟</text>
+    </view>
+  </view>
+
+  <!-- 添加按钮 -->
+  <view class="add-button" bindtap="addAlarm">
+    <text class="add-icon">+</text>
+  </view>
+</view>
